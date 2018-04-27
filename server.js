@@ -1,14 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
+
 const users = require('./routes/api/users');
 const profile = require('./routes/api/profile');
 const posts = require('./routes/api/posts');
 
 const app = express();
 
-// DB config
+// Express middleware
+app.use(express.json());
+app.use(express.urlencoded({extended: false}));
 
+// DB config
 const db = require('./config/keys').mongoURI;
 
 // Connect to MongoDB
