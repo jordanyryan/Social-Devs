@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
 
+
 // Load Validation
 const validateProfileInput = require('../../validation/profile');
 
@@ -72,7 +73,7 @@ router.get('/user/:user_id', (req, res) => {
 });
 
 // @route GET api/profile
-// @desc Get all profiles
+// @desc Get all profiles 
 // @access Public
 
 router.get('/all', (req, res) => {
