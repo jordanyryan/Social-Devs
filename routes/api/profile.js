@@ -155,5 +155,20 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 	
 });
 
+// @route POST api/profile/experience
+// @desc Add experience to profile route
+// @access Private
+router.post('/experience', passport.authenticate('jwt', {session: false}, (req, res) => {
+	Profile.findOne({user: req,user.id})
+		.then(profile => {
+			const {title, company, location, from, to, current, description} = req.body;
+			const newExp = {title, company, location, from, to, current, description};
+			profile.experience.unshift(newExp);
+
+			profile.save()
+				.then(profile => res.json(profile));
+		})
+}));
+
 
 module.exports = router;
