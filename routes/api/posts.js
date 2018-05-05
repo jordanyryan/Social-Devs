@@ -74,7 +74,7 @@ router.delete('/:post_id', passport.authenticate('jwt', {session: false}), (req,
 		.catch(err => res.status(404).json({postnotfound: 'No post found'}));
 })
 
-// @route POST api/posts/like/:post_id
+// @route POST api/posts/:post_id/like
 // @desc Like/Unlike a Post
 // @access Private
 
@@ -87,7 +87,11 @@ router.post('/:post_id/like', passport.authenticate('jwt', {session: false}), (r
 				.then(post => res.json(post));
 		})
 		.catch(err => res.status(404).json({postnotfound: 'No post found'}));
-})
+});
+
+// @route POST api/posts/:post_id/comment
+// @desc Comment on a Post
+// @access Private
 
 router.post('/:post_id/comment', passport.authenticate('jwt', {session: false}), (req, res) => {
 	const {errors, isValid} = validatePostInput(req.body);
@@ -104,6 +108,29 @@ router.post('/:post_id/comment', passport.authenticate('jwt', {session: false}),
 			post.comments.unshift({text,name,avatar,user});
 			post.save()
 				.then(post => res.json(post));
+		})
+		.catch(err => res.status(404).json({postnotfound: 'No post found'}));
+})
+
+// @route Delete api/posts/:post_id/comment
+// @desc Delete a comment from a Post
+// @access Private
+
+router.delete('/:post_id/comment/:comment_id', passport.authenticate('jwt', {session: false}), (req, res) => {
+
+	Post.findById(req.params.post_id)
+		.then(post => {
+			const commentIndex = post.comments.findIndex(comment => comment._id.toString() === req.params.comment_id);
+			if (commentIndex === -1) return res.status(404).json({commentnotfound: 'No comment found'});
+
+			if (post.comments[commentIndex].user.toString() === req.user.id) {
+				post.comments.splice(commentIndex, 1)
+				post.save()
+					.then(post => res.json(post));
+			} else {
+				return res.status(401).json({notauthorized: 'User not authorized'});
+			}
+			
 		})
 		.catch(err => res.status(404).json({postnotfound: 'No post found'}));
 })
