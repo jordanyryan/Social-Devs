@@ -6,6 +6,8 @@ const passport = require('passport');
 
 // Load Validation
 const validateProfileInput = require('../../validation/profile');
+const validateExperienceInput = require('../../validation/experience');
+const validateEducationInput = require('../../validation/education');
 
 // Load Profile model
 const Profile = require('../../models/Profile');
@@ -158,8 +160,17 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 // @route POST api/profile/experience
 // @desc Add experience to profile route
 // @access Private
-router.post('/experience', passport.authenticate('jwt', {session: false}, (req, res) => {
-	Profile.findOne({user: req,user.id})
+router.post('/experience', passport.authenticate('jwt', {session: false}), (req, res) => {
+	// Get fields
+	const {errors, isValid} = validateExperienceInput(req.body);
+
+	// Check Validation
+	if(!isValid) {
+		// Return errors
+		return res.status(400).json(errors);
+	}
+
+	Profile.findOne({user: req.user.id})
 		.then(profile => {
 			const {title, company, location, from, to, current, description} = req.body;
 			const newExp = {title, company, location, from, to, current, description};
@@ -168,7 +179,43 @@ router.post('/experience', passport.authenticate('jwt', {session: false}, (req, 
 			profile.save()
 				.then(profile => res.json(profile));
 		})
-}));
+});
+
+// @route POST api/profile/education
+// @desc Add education to profile route
+// @access Private
+router.post('/education', passport.authenticate('jwt', {session: false}), (req, res) => {
+	// Get fields
+	const {errors, isValid} = validateEducationInput(req.body);
+
+	// Check Validation
+	if(!isValid) {
+		// Return errors
+		return res.status(400).json(errors);
+	}
+
+	Profile.findOne({user: req.user.id})
+		.then(profile => {
+			const {school, degree, fieldofstudy, from, to, current, description} = req.body;
+			const newExp = {school, degree, fieldofstudy, from, to, current, description};
+			profile.education.unshift(newExp);
+
+			profile.save()
+				.then(profile => res.json(profile));
+		})
+});
 
 
 module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
