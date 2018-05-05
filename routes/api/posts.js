@@ -136,13 +136,6 @@ router.delete('/:post_id/comment/:comment_id', passport.authenticate('jwt', {ses
 })
 
 
-
-// @route POST api/posts/unlike/:post_id
-// @desc Unlike a Post
-// @access Private
-
-
-
 module.exports = router;
 
 
