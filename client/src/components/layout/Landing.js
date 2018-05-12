@@ -1,7 +1,17 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 
 class Landing extends Component {
+
+	componentDidMount() {
+		if(this.props.auth.isAuthenticated) {
+			this.props.history.push('/dashboard')
+		}
+	}
+
 	render() {
 		return (
 			<div className="landing">
@@ -13,7 +23,7 @@ class Landing extends Component {
 					            <p className="lead"> Create a developer profile/portfolio, share posts and get help from other developers</p>
 					            <hr />
 					            <Link to="/register" className="btn btn-lg btn-info mr-2">Sign Up</Link>
-					            <Link to="/login" className="btn btn-lg btn-light">Login</Link>
+								<Link to="/login" className="btn btn-lg btn-light">Login</Link>
 			            	</div>
 			        	</div>
 			        </div>
@@ -23,4 +33,12 @@ class Landing extends Component {
 	}
 }
 
-export default Landing;
+Landing.propTypes = {
+	auth: PropTypes.object.isRequired
+}
+
+const mapStateToProps = ({auth}) => ({
+	auth
+})
+
+export default connect(mapStateToProps)(Landing);
