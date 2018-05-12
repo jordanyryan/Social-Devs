@@ -19,8 +19,6 @@ class Login extends Component {
 		e.preventDefault();
 		const {email, password} = this.state;
 		const credentials = {email, password};
-
-		console.log(credentials);
 	}
 
 	render() {
