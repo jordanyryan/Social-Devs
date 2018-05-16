@@ -16,10 +16,12 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Footer from './components/layout/Footer';
 
+import Dashboard from './components/dashboard/Dashboard';
+import CreateProfile from './components/create-profile/CreateProfile';
+
 // Auth components
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
-import Dashboard from './components/dashboard/Dashboard';
 import './App.css';
 
 // Check for token
@@ -58,6 +60,9 @@ class App extends Component {
 					<Route exact path="/login" component={Login} />
 					<Switch>
 						<PrivateRoute exact path="/dashboard" component={Dashboard} />
+					</Switch>
+					<Switch>
+						<PrivateRoute exact path="/create-profile" component={CreateProfile} />
 					</Switch>
 
 			    </div>
