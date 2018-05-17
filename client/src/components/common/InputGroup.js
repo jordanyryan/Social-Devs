@@ -10,7 +10,7 @@ const InputGroup = ({name, placeholder, value, error, icon, type, onChange}) => 
                     <i className={icon}/>
                </span>
           </div>
-          <textarea 
+          <input 
           placeholder={placeholder}
           onChange={onChange} 
           name={name}

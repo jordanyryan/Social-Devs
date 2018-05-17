@@ -42,7 +42,54 @@ class CreateProfile extends Component {
 	}
 
 	render() {
-		const {errors} = this.state;
+		const {errors, displaySocialInputs} = this.state;
+		let socialInputs;
+		if (displaySocialInputs) {
+			socialInputs = (
+				<div>
+					<InputGroup
+						placeholder="Twitter Profile Url"
+						name="twitter"
+						icon="fab fa-twitter"
+						value={this.state.twitter}
+						onChange={this.onChange}
+						error={errors.twitter}
+					/>
+					<InputGroup
+						placeholder="Facebook Profile Url"
+						name="facebook"
+						icon="fab fa-facebook"
+						value={this.state.facebook}
+						onChange={this.onChange}
+						error={errors.facebook}
+					/>
+					<InputGroup
+						placeholder="LinkedIn Profile Url"
+						name="linkedin"
+						icon="fab fa-linkedin"
+						value={this.state.linkedin}
+						onChange={this.onChange}
+						error={errors.linkedin}
+					/>
+					<InputGroup
+						placeholder="Youtube Profile Url"
+						name="youtube"
+						icon="fab fa-youtube"
+						value={this.state.youtube}
+						onChange={this.onChange}
+						error={errors.youtube}
+					/>
+					<InputGroup
+						placeholder="Instagram Profile Url"
+						name="instagram"
+						icon="fab fa-instagram"
+						value={this.state.instagram}
+						onChange={this.onChange}
+						error={errors.instagram}
+					/>
+				</div>
+			)
+		}
 		const options = [
 			{label: 'Select professional status', value: 0},
 			{label: 'Developer', value: 'Developer'},
@@ -139,7 +186,8 @@ class CreateProfile extends Component {
 									</button>
 									<span className="text-muted">Optional</span>
 								</div>
-								
+								{socialInputs}
+								<input type="submit" value="submit" className="btn btn-info btn-block mt-4"/>
 							</form>
 						</div>
 					</div>
