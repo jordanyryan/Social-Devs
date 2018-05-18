@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import {createProfile} from '../../actions/profileActions.js';
+import { createProfile, getCurrentProfile} from '../../actions/profileActions.js';
 import PropTypes from 'prop-types';
 import TextFieldGroup from '../common/TextFieldGroup';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 import SelectListGroup from '../common/SelectListGroup';
 import InputGroup from '../common/InputGroup';
+import isEmpty from '../../validation/is-empty';
 
 class CreateProfile extends Component {
 	constructor(props) {
@@ -33,9 +34,30 @@ class CreateProfile extends Component {
 		this.onSubmit = this.onSubmit.bind(this);
 	}
 
+	componentDidMount() {
+		this.props.getCurrentProfile();
+	}
+
 	componentWillReceiveProps(nextProps) {
 		if(nextProps.errors) {
 			this.setState({errors: nextProps.errors});
+		}
+
+		if(nextProps.profile.profile) {
+			const profile = nextProps.profile.profile;
+			const skillsCSV = profile.skills.join(',');
+
+			// if !profile.field, make empty str
+			['company', 'website', 'location', 'githubusername', 'bio'].forEach(field => {
+				profile[field] = !isEmpty(profile[field]) ? profile[field] : '';
+			})
+
+			profile.social = !isEmpty(profile.social) ? profile.social : {};
+
+			['twitter', 'facebook', 'youtube', 'linkedin', 'instagram'].forEach(field => {
+				profile.social[field] = !isEmpty(profile.social[field]) ? profile.social[field] : '';
+			})
+
 		}
 	}
 
@@ -115,8 +137,7 @@ class CreateProfile extends Component {
 				<div className="container">
 					<div className="row">
 						<div className="col-md-8 m-auto">
-							<h1 className="display-4 text-center">Create Your Profile</h1>
-							<p className="lead text-center">Let's get some information to make your profile stand out</p>
+							<h1 className="display-4 text-center">Edit Profile</h1>
 							<small className="d-block pb-3 text-muted">* = required fields</small>
 							<form onSubmit={this.onSubmit}>
 								<TextFieldGroup 
@@ -198,7 +219,7 @@ class CreateProfile extends Component {
 									<span className="text-muted">Optional</span>
 								</div>
 								{socialInputs}
-								<input type="submit" value="Submit" className="btn btn-info btn-block mt-4"/>
+								<input type="submit" value="Save" className="btn btn-info btn-block mt-4"/>
 							</form>
 						</div>
 					</div>
@@ -209,6 +230,8 @@ class CreateProfile extends Component {
 }
 
 CreateProfile.propTypes = {
+	createProfile: PropTypes.func.isRequired,
+	getCurrentProfile: PropTypes.func.isRequired,
 	profile: PropTypes.object.isRequired,
 	errors: PropTypes.object.isRequired
 }
@@ -217,4 +240,4 @@ const mapStateToProps = ({profile, errors}) => ({
 	profile, errors
 });
 
-export default connect(mapStateToProps, {createProfile})(withRouter(CreateProfile));
+export default connect(mapStateToProps, {createProfile, getCurrentProfile})(withRouter(CreateProfile));
