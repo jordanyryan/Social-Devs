@@ -10,12 +10,12 @@ class Education extends Component {
 	}
 
 	render() {
-		const education = this.props.education.map(edu => (
+		const education = this.props.education.sort((a,b) => new Date(b.from) - new Date(a.from)).map(edu => (
 			<tr key={edu._id}>
 				<td>{edu.school}</td>
 				<td>{edu.degree}</td>
 				<td><Moment format="MM/DD/YYYY">{edu.from}</Moment> - {edu.to === null ? ' Now' : (<Moment format="MM/DD/YYYY">{edu.to}</Moment>)}</td>
-				<td><button onClick={this.onDeleteClick.bind(this, edu._id)} type="button" className="btn btn-danger">Delete</button></td>
+				<td><button onClick={this.onDeleteClick.bind(this, edu._id)} type="button" className="btn btn-danger float-right">Delete</button></td>
 			</tr>
 		))
 		return (
@@ -24,9 +24,9 @@ class Education extends Component {
 				<table className="table">
 					<thead>
 						<tr>
-							<th>School</th>
-							<th>Degree</th>
-							<th>Date</th>
+							<th style={{width: '40%'}}>School</th>
+							<th style={{width: '20%'}}>Degree</th>
+							<th style={{width: '20%'}}>Date</th>
 							<th></th>
 						</tr>
 						{education}

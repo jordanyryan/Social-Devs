@@ -10,12 +10,12 @@ class Experience extends Component {
 	}
 
 	render() {
-		const experience = this.props.experience.map(exp => (
+		const experience = this.props.experience.sort((a,b) => new Date(b.from) - new Date(a.from)).map(exp => (
 			<tr key={exp._id}>
 				<td>{exp.company}</td>
 				<td>{exp.title}</td>
 				<td><Moment format="MM/DD/YYYY">{exp.from}</Moment> - {exp.to === null ? ' Now' : (<Moment format="MM/DD/YYYY">{exp.to}</Moment>)}</td>
-				<td><button onClick={this.onDeleteClick.bind(this, exp._id)} type="button" className="btn btn-danger">Delete</button></td>
+				<td><button onClick={this.onDeleteClick.bind(this, exp._id)} type="button" className="btn btn-danger float-right">Delete</button></td>
 			</tr>
 		))
 		return (
@@ -24,9 +24,9 @@ class Experience extends Component {
 				<table className="table">
 					<thead>
 						<tr>
-							<th>Company</th>
-							<th>Title</th>
-							<th>Date</th>
+							<th style={{width: '40%'}}>Company</th>
+							<th style={{width: '20%'}}>Title</th>
+							<th style={{width: '20%'}}>Date</th>
 							<th></th>
 						</tr>
 						{experience}
@@ -36,6 +36,7 @@ class Experience extends Component {
 		)
 	}
 }
+
 
 Experience.propTypes = {
 	deleteExperience: PropTypes.func.isRequired
