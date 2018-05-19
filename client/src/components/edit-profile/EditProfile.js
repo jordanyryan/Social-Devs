@@ -44,8 +44,8 @@ class CreateProfile extends Component {
 		}
 
 		if(nextProps.profile.profile) {
-			const profile = nextProps.profile.profile;
-			const skillsCSV = profile.skills.join(',');
+			const {profile} = nextProps.profile;
+			const skills = profile.skills.join(',');
 
 			// if !profile.field, make empty str
 			['company', 'website', 'location', 'githubusername', 'bio'].forEach(field => {
@@ -55,8 +55,10 @@ class CreateProfile extends Component {
 			profile.social = !isEmpty(profile.social) ? profile.social : {};
 
 			['twitter', 'facebook', 'youtube', 'linkedin', 'instagram'].forEach(field => {
-				profile.social[field] = !isEmpty(profile.social[field]) ? profile.social[field] : '';
+				profile[field] = !isEmpty(profile.social[field]) ? profile.social[field] : '';
 			})
+			const {handle, company, website, location, status, githubusername, bio, twitter, facebook, youtube, linkedin, instagram} = profile;
+			this.setState({handle, company, website, location, status, skills, githubusername, bio, twitter, facebook, youtube, linkedin, instagram})
 
 		}
 	}
