@@ -46,7 +46,7 @@ class AddEducation extends Component {
 	}
 
 	onCheck() {
-		this.setState({current: !this.state.current, disabled: !this.state.current})
+		this.setState({current: !this.state.current, disabled: !this.state.disabled})
 	}
 
 	render() {
@@ -62,13 +62,13 @@ class AddEducation extends Component {
 							<small className="d-block pb-3">* = required fields</small>
 							<form onSubmit={this.onSubmit}>
 								<TextFieldGroup
-									placeholder="School"
+									placeholder="* School"
 									name="school"
 									value={this.state.school}
 									onChange={this.onChange}
 									error={errors.school}/>
 								<TextFieldGroup
-									placeholder="* Degree"
+									placeholder="* Degree or Certification"
 									name="degree"
 									value={this.state.degree}
 									onChange={this.onChange}
@@ -106,12 +106,12 @@ class AddEducation extends Component {
 									<label htmlFor="current" className="form-check-label">Current School</label>
 								</div>
 								<TextAreaFieldGroup
-									placeholder="Description of field of study"
+									placeholder="Program Description"
 									name="description"
 									value={this.state.description}
 									onChange={this.onChange}
 									error={errors.description}
-									info="Tell us about your field of study"
+									info="Tell us about the program you attended"
 								/>
 								<input type="submit" value="Submit" className="btn btn-info btn-block mt-4"/>
 							</form>
