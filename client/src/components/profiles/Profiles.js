@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Spinner from '../common/spinner';
+import ProfileItem from './ProfileItem';
 import { getProfiles } from '../../actions/profileActions';
 
 class Profiles extends Component {
@@ -17,7 +18,7 @@ class Profiles extends Component {
 			profileItems = <Spinner />
 		} else {
 			if(profiles.length > 0) {
-				<h1>Profiles here</h1>
+				profileItems = profiles.map(profile => <ProfileItem key={profile._id} profile={profile}/>)
 			} else {
 				profileItems = <h4>No profiles found...</h4>
 			}
@@ -32,7 +33,6 @@ class Profiles extends Component {
 							<p className="lead text-center">Browse and Connect with developers</p>
 							{profileItems}
 						</div>
-
 					</div>
 				</div>
 			</div>
