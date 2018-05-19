@@ -25,6 +25,18 @@ export const deleteAccount = () => dispatch => {
 	}
 }
 
+export const addExperience = (experienceData, history) => dispatch => {
+	axios.post('/api/profile/experience', experienceData)
+		.then(res => history.push('/dashboard'))
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+}
+
+export const addEducation = (educationData, history) => dispatch => {
+	axios.post('/api/profile/education', educationData)
+		.then(res => history.push('/dashboard'))
+		.catch(err => dispatch({type: GET_ERRORS, payload: err.response.data}));
+}
+
 // Profile Loading
 export const setProfileLoading = () => {
 	return {
