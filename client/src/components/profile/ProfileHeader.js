@@ -15,7 +15,7 @@ class ProfileHeader extends Component {
             <div class="text-center">
               <h1 class="display-4 text-center">John Doe</h1>
               <p class="lead text-center">Developer at Microsoft</p>
-              <p>Seattle, WA</p>
+              <p>Newark, NJ</p>
               <p>
                 <a class="text-white p-2" href="#">
                   <i class="fas fa-globe fa-2x"></i>
