@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const passport = require('passport');
+const prependHttp = require("prepend-http");
 
 
 // Load Validation
@@ -111,22 +112,26 @@ router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
 		// Return errors
 		return res.status(400).json(errors);
 	}
-	const info = ['handle', 'company', 'website', 'location', 'bio', 'status', 'githubusername'];
+	const info = ['handle', 'company', 'location', 'bio', 'status', 'githubusername'];
 	const socialLinks = ['youtube', 'twitter', 'facebook', 'instagram', 'linkedin'];
 	const profileFields = {};
 	profileFields.user = req.user.id;
 
 	// Set main info to Profile
-	for (let i = 0; i < 7; i++) {
+	for (let i = 0; i < 6; i++) {
 		if (req.body[info[i]]) profileFields[info[i]] = req.body[info[i]];
+	}
+	if (req.body.website) {
+		profileFields.website = prependHttp(req.body.website, {https: true});
 	}
 
 	// Set social to Profile
 	profileFields.social = {};
 	for (let i = 0; i < 5; i++) {
-		if (req.body[socialLinks[i]]) profileFields.social[socialLinks[i]] = req.body[socialLinks[i]];
+		if (req.body[socialLinks[i]]) profileFields.social[socialLinks[i]] = prependHttp(req.body[socialLinks[i]], {https: true});
 	}
 
+	
 	// Skills split into array
 	if (typeof req.body.skills !== 'undefined') {
 		profileFields.skills = req.body.skills.split(',');
