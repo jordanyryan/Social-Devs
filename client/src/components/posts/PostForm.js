@@ -20,7 +20,7 @@ class PostForm extends Component {
 			this.setState({errors: nextProps.errors});
 		}
 	}
-	
+
 	onChange(e) {
 		this.setState({[e.target.name]: e.target.value});
 	}
@@ -37,12 +37,6 @@ class PostForm extends Component {
 
 		this.props.addPost(newPost);
 		this.setState({text: ''});
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if(nextProps.errors) {
-			this.setState({errors: nextProps.errors});
-		}
 	}
 
 
