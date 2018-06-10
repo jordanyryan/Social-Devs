@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import LikeButton from './LikeButton';
 import { connect } from 'react-redux';
-import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 import { deletePost } from '../../actions/postActions';
 
@@ -28,13 +28,7 @@ class PostItem extends Component {
                 </div>
                 <div className="col-md-10">
                   <p className="lead">{post.text}</p>
-                  <button type="button" className="btn btn-light mr-1">
-                    <i className="text-info fas fa-thumbs-up"></i>
-                    <span className="badge badge-light">{post.likes.length}</span>
-                  </button>
-                  <button type="button" className="btn btn-info mr-1">
-                    <i className="text-white fas fa-thumbs-down"></i>
-                  </button>
+                  <LikeButton post={post} />
                   <Link to={`/post/${post._id}`} className="btn btn-info mr-1">
                     Comments
                   </Link>
